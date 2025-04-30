@@ -1,0 +1,385 @@
+{
+  "payments": {
+    "December 2023": {
+      "Person1": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person2": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person3": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person4": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person5": {
+        "paid": true,
+        "amount": 30
+      }
+    },
+    "January 2024": {
+      "Person1": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person2": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person3": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person4": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person5": {
+        "paid": true,
+        "amount": 30
+      }
+    },
+    "February 2024": {
+      "Person1": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person2": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person3": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person4": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person5": {
+        "paid": true,
+        "amount": 30
+      }
+    },
+    "March 2024": {
+      "Person1": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person2": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person3": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person4": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person5": {
+        "paid": true,
+        "amount": 30
+      }
+    },
+    "April 2024": {
+      "Person1": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person2": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person3": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person4": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person5": {
+        "paid": true,
+        "amount": 30
+      }
+    },
+    "May 2024": {
+      "Person1": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person2": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person3": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person4": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person5": {
+        "paid": true,
+        "amount": 30
+      }
+    },
+    "June 2024": {
+      "Person1": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person2": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person3": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person4": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person5": {
+        "paid": true,
+        "amount": 30
+      }
+    },
+    "July 2024": {
+      "Person1": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person2": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person3": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person4": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person5": {
+        "paid": true,
+        "amount": 30
+      }
+    },
+    "August 2024": {
+      "Person1": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person2": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person3": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person4": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person5": {
+        "paid": true,
+        "amount": 30
+      }
+    },
+    "September 2024": {
+      "Person1": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person2": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person3": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person4": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person5": {
+        "paid": true,
+        "amount": 30
+      }
+    },
+    "October 2024": {
+      "Person1": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person2": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person3": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person4": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person5": {
+        "paid": true,
+        "amount": 30
+      }
+    },
+    "November 2024": {
+      "Person1": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person2": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person3": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person4": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person5": {
+        "paid": true,
+        "amount": 30
+      }
+    },
+    "December 2024": {
+      "Person1": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person2": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person3": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person4": {
+        "paid": false,
+        "amount": 30
+      },
+      "Person5": {
+        "paid": true,
+        "amount": 30
+      }
+    },
+    "January 2025": {
+      "Person1": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person2": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person3": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person4": {
+        "paid": false,
+        "amount": 30
+      },
+      "Person5": {
+        "paid": false,
+        "amount": 30
+      }
+    },
+    "March 2025": {
+      "Person1": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person2": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person3": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person4": {
+        "paid": false,
+        "amount": 30
+      },
+      "Person5": {
+        "paid": false,
+        "amount": 30
+      }
+    },
+    "April 2025": {
+      "Person1": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person2": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person3": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person4": {
+        "paid": false,
+        "amount": 30
+      },
+      "Person5": {
+        "paid": false,
+        "amount": 30
+      }
+    },
+    "February 2025": {
+      "Person1": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person2": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person3": {
+        "paid": true,
+        "amount": 30
+      },
+      "Person4": {
+        "paid": false,
+        "amount": 30
+      },
+      "Person5": {
+        "paid": false,
+        "amount": 30
+      }
+    }
+  },
+  "peopleNames": {
+    "Person1": "Praneeth",
+    "Person2": "Deepanshu",
+    "Person3": "Sanyam",
+    "Person4": "Goutam",
+    "Person5": "Sahil"
+  }
+}
