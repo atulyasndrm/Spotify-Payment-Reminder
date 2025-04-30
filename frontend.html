@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .checkbox-cell {
+            width: 20px;
+            padding: 0 !important;
+            text-align: center;
+        }
+        .checkbox-cell input {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        .name-header {
+            min-width: 100px;
+            cursor: pointer;
+        }
+        .name-input {
+            width: 100%;
+            border: 1px solid #ccc;
+            background: white;
+            text-align: center;
+            font-weight: bold;
+            padding: 2px;
+        }
+        .checkbox-cell input:focus {
+            outline: 2px solid #3b82f6;
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-5xl">
+        <h1 class="text-2xl font-bold text-center mb-6">Payment Tracker</h1>
+        
+        <div class="flex justify-between mb-4">
+            <div class="flex gap-2">
+                <button id="saveToFile" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                    Save to File
+                </button>
+                <button id="loadFromFile" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+                    Load from File
+                </button>
+                <input type="file" id="fileInput" accept=".json" class="hidden">
+            </div>
+        </div>
+        
+        <div class="overflow-x-auto">
+            <table class="w-full table-auto border-collapse">
+                <thead>
+                    <tr class="bg-gray-200">
+                        <th class="border px-4 py-2">Month</th>
+                        <th class="border px-4 py-2 name-header" data-person="Person1">
+                            <span id="Person1-name">Person 1</span>
+                        </th>
+                        <th class="border px-4 py-2 name-header" data-person="Person2">
+                            <span id="Person2-name">Person 2</span>
+                        </th>
+                        <th class="border px-4 py-2 name-header" data-person="Person3">
+                            <span id="Person3-name">Person 3</span>
+                        </th>
+                        <th class="border px-4 py-2 name-header" data-person="Person4">
+                            <span id="Person4-name">Person 4</span>
+                        </th>
+                        <th class="border px-4 py-2 name-header" data-person="Person5">
+                            <span id="Person5-name">Person 5</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="paymentTable"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Fixed start date and current date handling
+        const startDate = new Date(2023, 11, 1); // December 2023 (months are 0-indexed)
+        const currentDate = new Date();
+        const paymentAmount = 30;
+        const defaultPeople = ['Person1', 'Person2', 'Person3', 'Person4', 'Person5'];
+        
+        // Load names from localStorage or use defaults
+        let peopleNames = JSON.parse(localStorage.getItem('peopleNames')) || {};
+        
+        // Initialize or load payments from localStorage
+        let payments = JSON.parse(localStorage.getItem('payments')) || {};
+
+        // Function to generate month keys from start date to current date
+        function generateMonthKeys() {
+            let date = new Date(startDate);
+            let months = [];
+            
+            // Set date to first day of each month to avoid missing months
+            date.setDate(1);
+            
+            // Create current month date for comparison (also set to first day)
+            let endDate = new Date(currentDate);
+            endDate.setDate(1);
+            
+            while (date <= endDate) {
+                let monthKey = date.toLocaleString('default', { month: 'long', year: 'numeric' });
+                months.push(monthKey);
+                date.setMonth(date.getMonth() + 1);
+            }
+            return months;
+        }
+
+        // Initialize payments object with all months and people
+        function initializePayments() {
+            let monthKeys = generateMonthKeys();
+            monthKeys.forEach(month => {
+                if (!payments[month]) {
+                    payments[month] = {};
+                }
+                defaultPeople.forEach(person => {
+                    if (!payments[month][person]) {
+                        payments[month][person] = { paid: false, amount: paymentAmount };
+                    }
+                });
+            });
+            // Remove any obsolete months
+            Object.keys(payments).forEach(month => {
+                if (!monthKeys.includes(month)) {
+                    delete payments[month];
+                }
+            });
+            saveToLocalStorage();
+        }
+
+        // Save payments and names to localStorage
+        function saveToLocalStorage() {
+            localStorage.setItem('payments', JSON.stringify(payments));
+            localStorage.setItem('peopleNames', JSON.stringify(peopleNames));
+        }
+
+        // Save payments to a JSON file
+        function saveToFile() {
+            const data = JSON.stringify({
+                payments: payments,
+                peopleNames: peopleNames
+            }, null, 2);
+            
+            const blob = new Blob([data], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `payment-tracker-${new Date().toISOString().slice(0,10)}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Load payments from a JSON file
+        function loadFromFile(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    payments = data.payments || {};
+                    peopleNames = data.peopleNames || {};
+                    
+                    saveToLocalStorage();
+                    renderPaymentTable();
+                    updateNames();
+                    alert('Data loaded successfully!');
+                } catch (error) {
+                    alert('Error loading file: Invalid format');
+                    console.error(error);
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // Update names in the table headers
+        function updateNames() {
+            defaultPeople.forEach(person => {
+                const nameElement = document.getElementById(`${person}-name`);
+                if (nameElement) {
+                    nameElement.textContent = peopleNames[person] || person.replace('Person', 'Person ');
+                }
+            });
+        }
+
+        // Make name editable
+        function makeNameEditable(personId) {
+            const nameElement = document.getElementById(`${personId}-name`);
+            const currentName = nameElement.textContent;
+            
+            nameElement.innerHTML = `<input type="text" value="${currentName}" class="name-input" id="${personId}-input">`;
+            const input = document.getElementById(`${personId}-input`);
+            input.focus();
+            
+            input.addEventListener('blur', () => {
+                saveName(personId, input.value.trim());
+            });
+            
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    saveName(personId, input.value.trim());
+                }
+            });
+        }
+
+        // Save name changes
+        function saveName(personId, newName) {
+            if (newName) {
+                peopleNames[personId] = newName;
+            } else {
+                delete peopleNames[personId];
+            }
+            saveToLocalStorage();
+            updateNames();
+        }
+
+        // Render payment table with checkboxes
+        function renderPaymentTable() {
+            const paymentTable = document.getElementById('paymentTable');
+            paymentTable.innerHTML = '';
+            let monthKeys = generateMonthKeys();
+            
+            monthKeys.forEach((month, rowIndex) => {
+                const row = document.createElement('tr');
+                let cells = `<td class="border px-4 py-2 font-medium">${month}</td>`;
+                
+                defaultPeople.forEach((person, colIndex) => {
+                    const paymentData = payments[month]?.[person] || { paid: false, amount: paymentAmount };
+                    const bgClass = paymentData.paid ? 'bg-green-50' : '';
+                    cells += `
+                        <td class="border px-4 py-2 text-center ${bgClass} checkbox-cell">
+                            <input type="checkbox" 
+                                   data-month="${month}" 
+                                   data-person="${person}"
+                                   data-row="${rowIndex}"
+                                   data-col="${colIndex}"
+                                   ${paymentData.paid ? 'checked' : ''}
+                                   tabindex="0">
+                        </td>`;
+                });
+                
+                row.innerHTML = cells;
+                paymentTable.appendChild(row);
+            });
+
+            // Add event listeners to checkboxes
+            const checkboxes = document.querySelectorAll('.checkbox-cell input');
+            checkboxes.forEach(checkbox => {
+                // Handle checkbox change
+                checkbox.addEventListener('change', function() {
+                    const month = this.getAttribute('data-month');
+                    const person = this.getAttribute('data-person');
+                    payments[month][person].paid = this.checked;
+                    saveToLocalStorage();
+                    
+                    // Update row background color
+                    const cell = this.closest('td');
+                    cell.classList.toggle('bg-green-50', this.checked);
+                });
+
+                // Handle keyboard navigation
+                checkbox.addEventListener('keydown', function(e) {
+                    const row = parseInt(this.getAttribute('data-row'));
+                    const col = parseInt(this.getAttribute('data-col'));
+                    const totalRows = monthKeys.length;
+                    const totalCols = defaultPeople.length;
+                    let nextCheckbox = null;
+
+                    switch(e.key) {
+                        case 'ArrowUp':
+                            if (row > 0) {
+                                nextCheckbox = document.querySelector(`input[data-row="${row-1}"][data-col="${col}"]`);
+                            }
+                            break;
+                        case 'ArrowDown':
+                            if (row < totalRows - 1) {
+                                nextCheckbox = document.querySelector(`input[data-row="${row+1}"][data-col="${col}"]`);
+                            }
+                            break;
+                        case 'ArrowLeft':
+                            if (col > 0) {
+                                nextCheckbox = document.querySelector(`input[data-row="${row}"][data-col="${col-1}"]`);
+                            }
+                            break;
+                        case 'ArrowRight':
+                            if (col < totalCols - 1) {
+                                nextCheckbox = document.querySelector(`input[data-row="${row}"][data-col="${col+1}"]`);
+                            }
+                            break;
+                        case ' ':
+                            // Toggle checkbox on spacebar
+                            this.checked = !this.checked;
+                            this.dispatchEvent(new Event('change'));
+                            e.preventDefault(); // Prevent page scroll
+                            break;
+                    }
+
+                    if (nextCheckbox) {
+                        nextCheckbox.focus();
+                        e.preventDefault(); // Prevent default scroll behavior
+                    }
+                });
+            });
+        }
+
+        // Initialize app
+        initializePayments();
+        updateNames();
+        renderPaymentTable();
+
+        // Set up event listeners
+        document.getElementById('saveToFile').addEventListener('click', saveToFile);
+        document.getElementById('loadFromFile').addEventListener('click', () => {
+            document.getElementById('fileInput').click();
+        });
+        document.getElementById('fileInput').addEventListener('change', loadFromFile);
+
+        // Add click listeners to name headers
+        defaultPeople.forEach(person => {
+            const header = document.querySelector(`.name-header[data-person="${person}"]`);
+            header.addEventListener('click', () => {
+                makeNameEditable(person);
+            });
+        });
+    </script>
+</body>
+</html>
